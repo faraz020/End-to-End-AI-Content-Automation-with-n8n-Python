@@ -138,6 +138,21 @@ For a full narration demo without Groq, copy `examples/story_output.json` to the
 
 The workflow JSON will be added to `workflows/` after it is sanitized. Until then, the commands above document the Python execution order.
 
+### Start n8n locally on Windows
+
+For a local Windows installation, open PowerShell in the repository root, activate the Python environment, and set these variables **before** starting n8n in that same shell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+$env:NODES_EXCLUDE = "[]"
+$env:N8N_RESTRICT_FILE_ACCESS_TO = (Get-Location).Path
+n8n start
+```
+
+`NODES_EXCLUDE = "[]"` clears the node exclusion list, making nodes such as **Execute Command** available. This is the node used to invoke the Python scripts; it is separate from the **Code** node. `N8N_RESTRICT_FILE_ACCESS_TO` allows n8n file operations in the project directory. If your scripts live elsewhere, replace `(Get-Location).Path` with that directory's absolute path. The variables apply to the current PowerShell session and the n8n process launched from it; repeat them when starting from a new shell.
+
+See the official n8n documentation for [node availability](https://docs.n8n.io/hosting/configuration/environment-variables/nodes/) and [file-access configuration](https://docs.n8n.io/hosting/configuration/environment-variables/security/).
+
 In a self-hosted n8n setup with Execute Command available, run the scripts sequentially in the same project working directory. The n8n process or container needs access to Python dependencies, FFmpeg, fonts, media folders, and the Groq key. A Docker deployment must mount the project and its assets into the container; host file paths will not work automatically inside it. Avoid concurrent runs in a shared directory because the current implementation uses fixed intermediate filenames.
 
 ## Configuration and current limitations
