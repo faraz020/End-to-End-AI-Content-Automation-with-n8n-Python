@@ -9,7 +9,7 @@
 
 This project automates the production steps behind short-form storytelling videos: structured script generation, a headline postcard, narrated audio, word-level subtitles, and video composition. Each stage is a standalone Python script with file-based inputs and outputs, making it straightforward to connect the stages in a self-hosted n8n workflow.
 
-**Current release:** the four Python production stages and the postcard template are included. The n8n workflow export is pending. Gameplay footage and music are supplied separately. YouTube publishing and execution logging belong to the wider automation and are not implemented by these four scripts.
+**Current release:** the four Python production stages and the postcard template are included. The n8n workflow export is pending. Four sample background videos and four music tracks are included in `assets/`; see the [asset inventory](assets/README.md). YouTube publishing and execution logging belong to the wider automation and are not implemented by these four scripts.
 
 ## Pipeline
 
@@ -49,8 +49,8 @@ flowchart LR
 ├── .env.example            # Configuration names only; no credentials
 ├── assets/
 │   ├── template.png        # Included postcard background
-│   ├── gameplay/           # Add your video footage here
-│   └── music/              # Add optional background music here
+│   ├── gameplay/           # Four sample videos; add your footage here
+│   └── music/              # Four sample tracks; music is optional
 ├── examples/
 │   └── story_output.json   # Offline input for a postcard demo
 └── workflows/              # Reserved for the sanitized n8n export
@@ -100,7 +100,7 @@ cp .env.example .env
 
 If automatic font discovery fails, set `POSTCARD_FONT` in your shell to an installed bold `.ttf` font. This setting is read by `postcard_code.py` from the process environment.
 
-Add at least one `.mp4`, `.mov`, or `.mkv` file to `assets/gameplay/`. Optionally add `.mp3`, `.wav`, or `.m4a` music to `assets/music/`. The scripts select a random file from each folder; music is optional. Large source media are ignored by Git by default and can be supplied separately.
+Four sample background videos and four music tracks are already included. To use your own media, add `.mp4`, `.mov`, or `.mkv` files to `assets/gameplay/` and optional `.mp3`, `.wav`, or `.m4a` tracks to `assets/music/`. The scripts select a random file from each folder; music is optional. Additional untracked media are ignored by Git by default. To deliberately publish another asset, stage its specific path with `git add -f "assets/gameplay/your-video.mp4"` or the corresponding music path.
 
 ## Run the production stages
 
@@ -132,7 +132,7 @@ The included template is shown below. `postcard_code.py` writes the headline int
 
 ![Postcard template](assets/template.png)
 
-For a full narration demo without Groq, copy `examples/story_output.json` to the project root as `story_output.json`, then run the remaining three scripts. You still need network access for voice synthesis and local gameplay footage for assembly. The example is deliberately short and does not satisfy the production story-length validator.
+For a full narration demo without Groq, copy `examples/story_output.json` to the project root as `story_output.json`, then run the remaining three scripts. You still need network access for voice synthesis; the included sample videos can be used for assembly. The example is deliberately short and does not satisfy the production story-length validator.
 
 ## Connecting to n8n
 
@@ -174,7 +174,7 @@ The scripts are a portfolio implementation with fixed filenames and local file h
 
 ## Credentials and media
 
-Use your own credentials in environment variables or a local `.env` file. `.env`, generated artifacts, and large source media are excluded from version control. Never commit API keys, OAuth tokens, or n8n credential exports. Rotate any key that was previously exposed.
+Use your own credentials in environment variables or a local `.env` file. `.env`, generated artifacts, and additional untracked source media are excluded from version control. The eight selected sample media files are tracked. Never commit API keys, OAuth tokens, or n8n credential exports. Rotate any key that was previously exposed.
 
 The supplied template contains third-party branding. Use footage, music, fonts, and artwork you have permission to publish, and replace the template branding when adapting the project for another channel.
 
