@@ -1,0 +1,35 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+credentials*.json
+*token*.json
+*.pem
+*.key
+
+# Python and editors
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated pipeline output
+/story_output.json
+/recent_premises.json
+/postcard_final.png
+/voiceover.mp3
+/captions.ass
+/final.mp4
+/headline_part.mp3
+/story_part.mp3
+
+# Large media are supplied separately
+/assets/gameplay/*
+!/assets/gameplay/.gitkeep
+/assets/music/*
+!/assets/music/.gitkeep
